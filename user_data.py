@@ -16,6 +16,11 @@ place_IDs = mtp.crawl(user_IDs)
 mtp.format_store(user_IDs, place_IDs, file_name)
 
 place_names = mtp.get_names()
-places_file_name = 'Mapping.json'
-with open(places_file_name, 'w') as f:
+names_file_name = 'Name_Mapping.json'
+with open(names_file_name, 'w') as f:
     json.dump(place_names, f)
+
+place_coords = mtp.get_coords(place_names)
+coords_file_name = 'Coord_Mapping.json'
+with open(coords_file_name, 'w') as f:
+    json.dump(place_coords, f)

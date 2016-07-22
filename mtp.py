@@ -5,6 +5,7 @@ from scraper import Scraper
 from selenium.webdriver.common.keys import Keys
 import requests
 import re
+from geopy.geocoders import Nominatim
 
 class MTPScraper(Scraper):
     """
@@ -54,6 +55,24 @@ class MTPScraper(Scraper):
             names[parts[3]] = parts[5]
 
         return names
+
+    def get_coords(self, place_names):
+        """
+        Returns the mapping from place IDs/names to coords
+        """
+        geolocator = Nominatim()
+        coords = {}
+        for ID in place_names:
+            name = place_names[ID]
+            try:
+                coord = geolocator.geocode(place_names[ID])[-1]
+            except:
+                print(name)
+                coord = None
+            coords[ID] = coord
+            coords[name] = coord
+
+        return coords
 
     def format_store(self, user_IDs, place_IDs, file_name):
         """
